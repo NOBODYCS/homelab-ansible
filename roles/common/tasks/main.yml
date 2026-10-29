@@ -3,7 +3,7 @@
 # tasks file for roles/common
 
 - name: Install baseline packages
-  package:
+  ansible.builtin.package:
     name:
       - net-tools
       - git
@@ -19,7 +19,7 @@
     state: present
 
 - name: Create and admin account - n0body
-  user:
+  ansible.builtin.user:
     name: n0body
     state: present
     groups: sudo
@@ -27,7 +27,7 @@
     shell: /bin/bash
 
 - name: Ansible manager account
-  user:
+  ansible.builtin.user:
     name: ansible
     state: present
     groups: sudo
@@ -35,7 +35,7 @@
     shell: /bin/bash
 
 - name: Sudoers file for ansible user
-  copy:
+  ansible.builtin.copy:
     dest: /etc/sudoers.d/ansible
     content: "ansible ALL=(ALL) NOPASSWD: ALL\n"
     owner: root
@@ -44,13 +44,13 @@
     validate: "visudo -cf %s"
 
 - name: Create service account
-  user:
+  ansible.builtin.user:
     name: svcbackup
     state: present
     shell: /usr/sbin/nologin
 
 - name: Deploy motd from template
-  template:
+  ansible.builtin.template:
     src: motd.j2
     dest: /etc/motd
     owner: root
@@ -58,7 +58,7 @@
     mode: "0644"
 
 - name: Deploy sshd hardening drop-in
-  template:
+  ansible.builtin.template:
     src: sshd_hardening.j2
     dest: /etc/ssh/sshd_config.d/hardening.conf
     owner: root
@@ -68,7 +68,7 @@
   notify: restart ssh
 
 - name: Allow SSH through firewall
-  ufw:
+  community.general.ufw:
     rule: allow
     port: 22
     proto: tcp
