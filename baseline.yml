@@ -1,0 +1,20 @@
+---
+- name: Baseline Configuration
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Install baseline packages
+      package:
+        name:
+        - net-tools
+        - git
+        - curl
+        - htop
+        - wget
+        - tmux
+        - tree
+        - ncdu
+        - unzip
+      state: present
+
