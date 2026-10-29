@@ -1,0 +1,16 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for roles/fail2ban
+- name: Install and configure fail2ban
+  ansible.builtin.package:
+    name: fail2ban
+    state: present
+
+- name: Fail2ban config file
+  ansible.builtin.template:
+    src: jail.j2
+    dest: /etc/fail2ban/jail.local
+    owner: root
+    group: root
+    mode: "0644"
+  notify: restart fail3ban

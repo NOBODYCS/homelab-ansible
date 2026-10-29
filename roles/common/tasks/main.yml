@@ -1,0 +1,81 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for roles/common
+
+- name: Install baseline packages
+  package:
+    name:
+      - net-tools
+      - git
+      - curl
+      - htop
+      - wget
+      - tmux
+      - tree
+      - ncdu
+      - unzip
+      - kitty-terminfo
+      - ufw
+    state: present
+
+- name: Create and admin account - n0body
+  user:
+    name: n0body
+    state: present
+    groups: sudo
+    append: true
+    shell: /bin/bash
+
+- name: Ansible manager account
+  user:
+    name: ansible
+    state: present
+    groups: sudo
+    append: true
+    shell: /bin/bash
+
+- name: Sudoers file for ansible user
+  copy:
+    dest: /etc/sudoers.d/ansible
+    content: "ansible ALL=(ALL) NOPASSWD: ALL\n"
+    owner: root
+    group: root
+    mode: "0440"
+    validate: "visudo -cf %s"
+
+- name: Create service account
+  user:
+    name: svcbackup
+    state: present
+    shell: /usr/sbin/nologin
+
+- name: Deploy motd from template
+  template:
+    src: motd.j2
+    dest: /etc/motd
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Deploy sshd hardening drop-in
+  template:
+    src: sshd_hardening.j2
+    dest: /etc/ssh/sshd_config.d/hardening.conf
+    owner: root
+    group: root
+    mode: "0644"
+    validate: /usr/sbin/sshd -t -f %s
+  notify: restart ssh
+
+- name: Allow SSH through firewall
+  ufw:
+    rule: allow
+    port: 22
+    proto: tcp
+
+- name: Enable firewall, deny all other incoming traffic
+  community.general.ufw:
+    state: enabled
+    policy: deny
+    direction: incoming
+    logging: low
