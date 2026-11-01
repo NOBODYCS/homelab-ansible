@@ -1,0 +1,27 @@
+---
+
+- name: Install  Docker daemon
+  ansible.builtin.package:
+    name: docker.io
+    state: present
+
+- name: Install Docker SDK for Python
+  ansible.builtin.package:
+    name: python3-docker
+    state: present
+
+- name: Enable and start Docker service
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Start Docker Container
+  community.docker.docker_container:
+    name: web
+    image: "{{ nginx_image }}"
+    state: started
+    restart_policy: unless-stopped
+    ports: "{{ nginx_ports }}"
+
+

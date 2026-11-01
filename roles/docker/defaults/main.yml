@@ -1,0 +1,7 @@
+#SPDX-License-Identifier: MIT-0
+---
+# defaults file for roles/docker
+
+nginx_image: nginx:1.27-alpine
+nginx_ports:
+  - "8080:80"
