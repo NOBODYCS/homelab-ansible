@@ -5,5 +5,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - run: pip install ansible-lint
+    - run: pip install ansible-lint==26.10.1
     - run: ansible-lint --profile production
