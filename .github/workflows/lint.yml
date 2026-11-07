@@ -4,6 +4,8 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - run: pip install ansible-lint==26.10.1
-    - run: ansible-lint --profile production
+      - uses: actions/checkout@v4
+      - run: pip install ansible-lint==26.10.1
+      - run: ansible-galaxy collection install -r requirements.yml
+      - run: echo "${{ secrets.VAULT_PASSWORD }}" > ~/.vault_pass.txt
+      - run: ansible-lint --profile production

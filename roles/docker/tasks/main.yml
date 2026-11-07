@@ -19,9 +19,9 @@
 - name: Start Docker Container
   community.docker.docker_container:
     name: web
-    image: "{{ nginx_image }}"
+    image: "{{ docker_nginx_image }}"
     state: started
     restart_policy: unless-stopped
-    ports: "{{ nginx_ports }}"
+    ports: "{{ docker_nginx_ports }}"
 
 
