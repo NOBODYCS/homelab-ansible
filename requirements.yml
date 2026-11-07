@@ -4,4 +4,3 @@ collections:
     version: "=12.1.0"
   - name: community.docker
     version: "=4.2.0"
-    
