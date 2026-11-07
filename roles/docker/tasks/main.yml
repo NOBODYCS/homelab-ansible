@@ -23,5 +23,4 @@
     state: started
     restart_policy: unless-stopped
     ports: "{{ docker_nginx_ports }}"
-
-
+    

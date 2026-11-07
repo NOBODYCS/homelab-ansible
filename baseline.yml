@@ -10,10 +10,9 @@
     - name: Debug vault resolve
       ansible.builtin.debug:
         msg: "Vault resolved: {{ fake_api_token }}"
-        
+
 - name: Docker Configuration
   hosts: debian
   become: true
   roles:
     - docker
----
