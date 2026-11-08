@@ -84,6 +84,6 @@
 - name: Limit journal to 100M permanently
   ansible.builtin.lineinfile:
     path: /etc/systemd/journald.conf
-    regexp: '^#?SystemMaxUse='
+    regexp: "^#?SystemMaxUse="
     line: SystemMaxUse=100M
   notify: Restart systemd-journald
