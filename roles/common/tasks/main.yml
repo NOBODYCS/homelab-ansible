@@ -16,6 +16,7 @@
       - unzip
       - kitty-terminfo
       - ufw
+      - update-notifier-common
     state: present
 
 - name: Create and admin account - n0body
@@ -79,3 +80,10 @@
     policy: deny
     direction: incoming
     logging: low
+
+- name: Limit journal to 100M permanently
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/journald.conf
+    regexp: '^#?SystemMaxUse='
+    line: SystemMaxUse=100M
+  notify: Restart systemd-journald
