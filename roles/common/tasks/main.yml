@@ -16,7 +16,7 @@
       - unzip
       - kitty-terminfo
       - ufw
-      - update-notifier-common
+      - reboot-notifier
     state: present
 
 - name: Create and admin account - n0body

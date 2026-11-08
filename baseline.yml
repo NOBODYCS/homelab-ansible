@@ -16,3 +16,12 @@
   become: true
   roles:
     - docker
+
+- name: Update notifier for Ubuntu
+  hosts: ubuntu
+  become: true
+  tasks:
+    - name: Install update-notifier-common package
+      ansible.builtin.package:
+        name: update-notifier-common
+        state: present
